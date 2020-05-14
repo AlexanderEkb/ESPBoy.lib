@@ -9,19 +9,12 @@
 
 #include <Arduino.h>
 
-#ifndef ESP8266
-#include <avr/power.h>
-#include <avr/sleep.h>
-#include <avr/wdt.h>
-#include <SPI.h>
-#else
 // #include <brzo_i2c.h> // Only needed for Arduino 1.6.5 and earlier
 // #include "SSD1306Brzo.h"
 
 #include "Adafruit_ST7735.h"
 #define LIMIT_BUTTON_CALLS (1000 / 30)
 extern Adafruit_ST7735 theDisplay;
-#endif
 
 #include <limits.h>
 
@@ -180,32 +173,8 @@ extern Adafruit_ST7735 theDisplay;
 #define B_BUTTON_BIT PORTB4
 #endif
 
-#ifdef ESP8266
-
 // there is only one pin for audio
 #define PIN_SPEAKER 0
-
-/*
-#define SPEAKER_1_PORT PORTB
-#define SPEAKER_1_DDR DDRB
-#define SPEAKER_1_BIT PORTB1
-
-#define SPEAKER_2_PORT PORTB
-#define SPEAKER_2_DDR DDRB
-#define SPEAKER_2_BIT PORTB3
-*/
-#else
-#define PIN_SPEAKER_1 5  
-#define PIN_SPEAKER_2 13 
-
-#define SPEAKER_1_PORT PORTC
-#define SPEAKER_1_DDR DDRC
-#define SPEAKER_1_BIT PORTC6
-
-#define SPEAKER_2_PORT PORTC
-#define SPEAKER_2_DDR DDRC
-#define SPEAKER_2_BIT PORTC7
-#endif
 // -----------------------
 
 // ----- DevKit pins -----
@@ -296,15 +265,6 @@ extern Adafruit_ST7735 theDisplay;
 // --------------------
 
 // ----- Pins common on ESPBoy and DevKit -----
-
-#ifndef ESP8266
-// Unconnected analog input used for noise by initRandomSeed()
-#define RAND_SEED_IN A4
-#define RAND_SEED_IN_PORT PORTF
-#define RAND_SEED_IN_BIT PORTF1
-// Value for ADMUX to read the random seed pin: 2.56V reference, ADC1
-#define RAND_SEED_IN_ADMUX (_BV(REFS0) | _BV(REFS1) | _BV(MUX0))
-#endif
 
 // SPI interface
 #define SPI_MISO_PORT PORTB
@@ -430,11 +390,8 @@ class ESPBoyCore
 
     ESPBoyCore();
 
-#ifdef ESP8266		
     void setExternalButtons(uint8_t but);	
-		
 	void setExternalButtonsHandler(void (*function)());
-#endif		
 				
 		
     /** \brief

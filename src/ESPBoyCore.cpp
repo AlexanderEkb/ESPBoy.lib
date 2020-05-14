@@ -6,9 +6,6 @@
 
 #include "ESPBoyCore.h"
 
-#ifndef ESP8266
-#include <Wire.h>
-#else
 #define RAW_BUTTON_A 				0x0001
 #define RAW_BUTTON_B 				0x0002
 #define RAW_BUTTON_C				0x0003
@@ -21,12 +18,6 @@
 uint8_t externalButtons;		
 void (*externalButtonsHandler)();
 bool hasExternalButtonsHandler = false;
-			
-#ifdef LIMIT_BUTTON_CALLS
-// static uint32_t nextButtonsRead = 0;
-#endif	
-			
-#endif
 
 ESPBoyCore::ESPBoyCore() { }
 
@@ -184,9 +175,7 @@ void ESPBoyCore::digitalWriteRGB(uint8_t color, uint8_t val)
 
 /* Buttons */
 
-#ifdef ESP8266		
 void ESPBoyCore::setExternalButtons(uint8_t but) {
-	
 	externalButtons	= but;
 }
 
@@ -195,7 +184,6 @@ void ESPBoyCore::setExternalButtonsHandler(void (*function)())
 	externalButtonsHandler = function;
 	hasExternalButtonsHandler = true;
 }
-#endif
 
 uint8_t ESPBoyCore::buttonsState()
 {

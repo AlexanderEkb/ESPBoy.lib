@@ -51,55 +51,17 @@ void ESPBoyBase::begin()
 
 void ESPBoyBase::flashlight()
 {
-#ifndef ESP8266
-  if (!pressed(UP_BUTTON)) {
-    return;
-  }
-
-  sendLCDCommand(OLED_ALL_PIXELS_ON); // smaller than allPixelsOn()
-  digitalWriteRGB(RGB_ON, RGB_ON, RGB_ON);
-
-#ifndef ESPBOY_CORE // for ESPBoy core timer 0 should remain enabled
-  // prevent the bootloader magic number from being overwritten by timer 0
-  // when a timer variable overlaps the magic number location, for when
-  // flashlight mode is used for upload problem recovery
-  power_timer0_disable();
-#endif
-
-  while (true) {
-    idle();
-  }
-#endif
+  // FIXME:
 }
 
 void ESPBoyBase::systemButtons()
 {
-#ifndef ESP8266     
-  while (pressed(B_BUTTON)) {
-    digitalWriteRGB(BLUE_LED, RGB_ON); // turn on blue LED
-    sysCtrlSound(UP_BUTTON + B_BUTTON, GREEN_LED, 0xff);
-    sysCtrlSound(DOWN_BUTTON + B_BUTTON, RED_LED, 0);
-    delayShort(200);
-  }
-
-  digitalWriteRGB(BLUE_LED, RGB_OFF); // turn off blue LED
-#endif 
+  // FIXME:
 }
 
 void ESPBoyBase::sysCtrlSound(uint8_t buttons, uint8_t led, uint8_t eeVal)
 {
-#ifndef ESP8266 
-  if (pressed(buttons)) {
-    digitalWriteRGB(BLUE_LED, RGB_OFF); // turn off blue LED
-    delayShort(200);
-    digitalWriteRGB(led, RGB_ON); // turn on "acknowledge" LED
-    EEPROM.update(EEPROM_AUDIO_ON_OFF, eeVal);
-    delayShort(500);
-    digitalWriteRGB(led, RGB_OFF); // turn off "acknowledge" LED
-
-    while (pressed(buttons)) { } // Wait for button release
-  }
-#endif
+  // FIXME:
 }
 
 void ESPBoyBase::bootLogo()
@@ -262,19 +224,10 @@ bool ESPBoyBase::nextFrame()
   return true;
 }
 
-#ifndef ESP8266
 bool ESPBoyBase::nextFrameDEV()
 {
-  bool ret = nextFrame();
-  if (ret) {
-    if (lastFrameDurationMs > eachFrameMillis)
-      TXLED1;
-    else
-      TXLED0;
-  }
-  return ret;
+  // FIXME:
 }
-#endif
 
 int ESPBoyBase::cpuLoad()
 {
@@ -283,17 +236,7 @@ int ESPBoyBase::cpuLoad()
 
 void ESPBoyBase::initRandomSeed()
 {
-#ifndef ESP8266 
-  power_adc_enable(); // ADC on
-
-  // do an ADC read from an unconnected input pin
-  ADCSRA |= _BV(ADSC); // start conversion (ADMUX has been pre-set in boot())
-  while (bit_is_set(ADCSRA, ADSC)) { } // wait for conversion complete
-
-  randomSeed(((unsigned long)ADC << 16) + micros());
-
-  power_adc_disable(); // ADC off
-#endif
+  // FIXME:
 }
 
 /* Graphics */
@@ -320,51 +263,6 @@ void ESPBoyBase::drawPixel(int16_t x, int16_t y, uint8_t color)
   }
   #endif
 
-#ifndef ESP8266
-  uint16_t row_offset;
-  uint8_t bit;
-
-  // uint8_t row = (uint8_t)y / 8;
-  // row_offset = (row*WIDTH) + (uint8_t)x;
-  // bit = _BV((uint8_t)y % 8);
-
-  // the above math can also be rewritten more simply as;
-  //   row_offset = (y * WIDTH/8) & ~0b01111111 + (uint8_t)x;
-  // which is what the below assembler does
-
-  // local variable for the bitshift_left array pointer,
-  // which can be declared a read-write operand
-  const uint8_t* bsl = bitshift_left;
-
-  asm volatile
-  (
-    "mul %[width_offset], %A[y]\n"
-    "movw %[row_offset], r0\n"
-    "andi %A[row_offset], 0x80\n" // row_offset &= (~0b01111111);
-    "clr __zero_reg__\n"
-    "add %A[row_offset], %[x]\n"
-    // mask for only 0-7
-    "andi %A[y], 0x07\n"
-    // Z += y
-    "add r30, %A[y]\n"
-    "adc r31, __zero_reg__\n"
-    // load correct bitshift from program RAM
-    "lpm %[bit], Z\n"
-    : [row_offset] "=&x" (row_offset), // upper register (ANDI)
-      [bit] "=r" (bit),
-      [y] "+d" (y), // upper register (ANDI), must be writable
-      "+z" (bsl) // is modified to point to the proper shift array element
-    : [width_offset] "r" ((uint8_t)(WIDTH/8)),
-      [x] "r" ((uint8_t)x)
-    :
-  );
-
-  if (color) {
-    sBuffer[row_offset] |=   bit;
-  } else {
-    sBuffer[row_offset] &= ~ bit;
-  }
-#else
   uint8_t row = (uint8_t)y / 8;
   if (color)
   {
@@ -374,7 +272,6 @@ void ESPBoyBase::drawPixel(int16_t x, int16_t y, uint8_t color)
   {
     sBuffer[(row*WIDTH) + (uint8_t)x] &= ~ _BV((uint8_t)y % 8);
   }
-#endif
 }
 
 uint8_t ESPBoyBase::getPixel(uint8_t x, uint8_t y)
@@ -573,17 +470,15 @@ void ESPBoyBase::drawRect
 void ESPBoyBase::drawFastVLine
 (int16_t x, int16_t y, uint8_t h, uint8_t color)
 {
-//#ifdef ESP8266  
-    // this is called in fillRect, so it needs to be the fast version
+// this is called in fillRect, so it needs to be the fast version
 //    const uint16_t fullColor = color?ST77XX_WHITE:ST77XX_BLUE;
 //    theDisplay.drawFastVLine(x, y+32, h, fullColor);
-//#else   
+  // FIXME:
   int16_t end = y+h;
   for (int16_t a = max(0,y); a < min(end,HEIGHT); a++)
   {
     drawPixel(x,a,color);
   }
-//#endif
 }
 
 void ESPBoyBase::drawFastHLine
@@ -650,61 +545,11 @@ void ESPBoyBase::fillRect
 
 void ESPBoyBase::fillScreen(uint8_t color)
 {
-#ifndef ESP8266
-  // C version:
-  //
-  // if (color != BLACK)
-  // {
-  //   color = 0xFF; // all pixels on
-  // }
-  // for (int16_t i = 0; i < WIDTH * HEIGTH / 8; i++)
-  // {
-  //    sBuffer[i] = color;
-  // }
-
-  // This asm version is hard coded for 1024 bytes. It doesn't use the defined
-  // WIDTH and HEIGHT values. It will have to be modified for a different
-  // screen buffer size.
-  // It also assumes color value for BLACK is 0.
-
-  // local variable for screen buffer pointer,
-  // which can be declared a read-write operand
-  
-
-    
-    uint8_t* bPtr = sBuffer;
-
-  asm volatile
-  (
-    // if value is zero, skip assigning to 0xff
-    "cpse %[color], __zero_reg__\n"
-    "ldi %[color], 0xFF\n"
-    // counter = 0
-    "clr __tmp_reg__\n"
-    "loopto:\n"
-    // (4x) push zero into screen buffer,
-    // then increment buffer position
-    "st Z+, %[color]\n"
-    "st Z+, %[color]\n"
-    "st Z+, %[color]\n"
-    "st Z+, %[color]\n"
-    // increase counter
-    "inc __tmp_reg__\n"
-    // repeat for 256 loops
-    // (until counter rolls over back to 0)
-    "brne loopto\n"
-    : [color] "+d" (color),
-      "+z" (bPtr)
-    :
-    :
-  );
-#else
     if (color == BLACK) {
         clearDisplay();
     } else {
         memset(sBuffer, 0xff, sBufferSize);
     }
-#endif
 }
 
 void ESPBoyBase::drawRoundRect
@@ -900,11 +745,7 @@ void ESPBoyBase::drawSlowXYBitmap
 
   for(yi = 0; yi < h; yi++) {
     for(xi = 0; xi < w; xi++ ) {
-#ifdef ESP8266
       if(!(pgm_read_byte(bitmap + yi * byteWidth + xi / 8) & (128 >> (xi & 7)))) {      
-#else
-      if(pgm_read_byte(bitmap + yi * byteWidth + xi / 8) & (128 >> (xi & 7))) { 
-#endif
         drawPixel(x + xi, y + yi, color);
       } else {
         drawPixel(x + xi, y + yi, !color);

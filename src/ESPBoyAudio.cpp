@@ -18,14 +18,7 @@ void ESPBoyAudio::off()
 {
   audio_enabled = false;
   // shut off audio pins by setting them as inputs
-#ifndef ESP8266  
-#ifdef ESPBOY_10
-  bitClear(SPEAKER_1_DDR, SPEAKER_1_BIT);
-  bitClear(SPEAKER_2_DDR, SPEAKER_2_BIT);
-#else
-  bitClear(SPEAKER_1_DDR, SPEAKER_1_BIT);
-#endif
-#endif
+  // FIXME: Reset audio output
 }
 
 void ESPBoyAudio::toggle()
