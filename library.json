@@ -1,0 +1,17 @@
+{
+    "name": "ESPBoy",
+    "keywords": "arduboy, espboy, game",
+    "description": "A library for use with the ESPBoy game system. Based on Arduboy2.",
+    "repository":
+    {
+        "type": "git",
+        "url": "https://github.com/AlexanderEkb/ESPBoy.lib.git"
+    },
+    "version": "0.1.0",
+    "export":
+    {
+        "exclude": "extras"
+    },
+    "frameworks": "arduino",
+    "platforms": "espressif8266"
+}

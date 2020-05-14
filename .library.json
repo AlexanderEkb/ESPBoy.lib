@@ -1,0 +1,69 @@
+{
+    "name": "ESPBoy", 
+    "version": "0.1.0", 
+    "keywords": [
+        "other"
+    ], 
+    "description": "A library for use with the ESPBoy game system. Based on Arduboy2", 
+    "frameworks": [
+        "arduino"
+    ], 
+    "platforms": [
+        "espressif8266"
+    ], 
+    "authors": [
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "Chris J. Martinez"
+        }, 
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "Kevin Bates"
+        }, 
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "Josh Goebel"
+        }, 
+        {
+            "email": "saydisp-git@yahoo.ca", 
+            "url": null, 
+            "maintainer": false, 
+            "name": "Scott Allen"
+        }, 
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": false, 
+            "name": "Ross O. Shoger"
+        },
+        {
+            "email": null, 
+            "url": null, 
+            "maintainer": true, 
+            "name": "Alexander M. Kochkin"
+        }
+    ], 
+    "repository": {
+        "type": "git", 
+        "url": "https://github.com/AlexanderEkb/ESPBoy.lib.git"
+    }, 
+    "homepage": null, 
+    "export": {
+        "include": null, 
+        "exclude": [
+            "extras", 
+            "docs", 
+            "tests", 
+            "test", 
+            "*.doxyfile", 
+            "*.pdf"
+        ]
+    }, 
+    "id": 0
+}
