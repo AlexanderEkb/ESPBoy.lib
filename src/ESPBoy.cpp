@@ -13,6 +13,7 @@
 //========================================
 
 uint8_t ESPBoyBase::sBuffer[];
+uint32_t Battery:: state;
 
 ESPBoyBase::ESPBoyBase()
 {

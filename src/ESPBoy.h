@@ -13,6 +13,7 @@
 #include "ESPBoyBeep.h"
 #include "Sprites.h"
 #include "SpritesB.h"
+#include "Battery.h"
 #include <Print.h>
 #include <limits.h>
 
