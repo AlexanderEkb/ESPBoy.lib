@@ -21,6 +21,10 @@ bool hasExternalButtonsHandler = false;
 
 ESPBoyCore::ESPBoyCore() { }
 
+void ESPBoyCore::blank() {
+
+}
+
 void ESPBoyCore::boot()
 {
 	bootPins();
