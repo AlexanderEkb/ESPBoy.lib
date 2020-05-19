@@ -917,8 +917,10 @@ void ESPBoyBase::display()
 
 void ESPBoyBase::display(bool clear)
 {
-  clearDisplay();
   display();
+  if(clear) {
+    clearDisplay();
+  }
 }
 
 uint8_t* ESPBoyBase::getBuffer()
