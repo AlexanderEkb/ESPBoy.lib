@@ -5,6 +5,7 @@
  */
 
 #include "ESPBoyCore.h"
+#include "user_interface.h"
 
 #define RAW_BUTTON_A 				0x0001
 #define RAW_BUTTON_B 				0x0002
@@ -27,6 +28,7 @@ void ESPBoyCore::blank() {
 
 void ESPBoyCore::boot()
 {
+	wifi_set_opmode(NULL_MODE);
 	bootPins();
 	bootOLED();
 	bootPowerSaving();
