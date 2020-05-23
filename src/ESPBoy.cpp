@@ -228,6 +228,7 @@ bool ESPBoyBase::nextFrame()
 bool ESPBoyBase::nextFrameDEV()
 {
   // FIXME:
+  return nextFrame();
 }
 
 int ESPBoyBase::cpuLoad()
