@@ -4,6 +4,7 @@
  * The ESPBoyCore class for ESPboy hardware initilization and control.
  */
 
+#include "Adafruit_ST7735.h"
 #include "ESPBoyCore.h"
 #include "user_interface.h"
 
@@ -19,6 +20,11 @@
 uint8_t externalButtons;		
 void (*externalButtonsHandler)();
 bool hasExternalButtonsHandler = false;
+
+Adafruit_ST7735 theDisplay = Adafruit_ST7735(
+  ESPBoyCore::lcd_cs, 
+  ESPBoyCore::lcd_dc, 
+  ESPBoyCore::lcd_rst);
 
 ESPBoyCore::ESPBoyCore() { }
 
