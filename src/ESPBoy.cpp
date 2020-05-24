@@ -486,7 +486,6 @@ void ESPBoyBase::drawFastVLine
 void ESPBoyBase::drawFastHLine
 (int16_t x, int16_t y, uint8_t w, uint8_t color)
 {
-	return;
   int16_t xEnd; // last x point + 1
 
   // Do y bounds checks
