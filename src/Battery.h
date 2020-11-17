@@ -41,10 +41,11 @@ class Battery {
         } else {
             pGlyph = (uint16_t *)Battery20;
         }
-        memcpy(buffer, pGlyph, size);
+        memcpy(buffer, pGlyph, size*sizeof(uint16_t));
+        uint16_t bkg = (borderColor >> 8) | ((borderColor & 0x00FF) << 8);
         for(uint32_t nIndex=0; nIndex<size; nIndex++) {
             if(buffer[nIndex] == BATTERY_TRANSPARENT_COLOR) {
-                buffer[nIndex] = borderColor;
+                buffer[nIndex] = bkg;
             }
         }
         theDisplay.drawRGBBitmap(
