@@ -903,14 +903,14 @@ void ESPBoyBase::display()
 			srcIndex = (strip * width) + column;
 			uint8_t byte = sBuffer[srcIndex];
 			for(line=0; line < linesPerStrip; line++) {
-				const bool set = byte & 0x80;
-				destIndex = line * width + (width - column - 1);
+				const bool set = byte & 0x01;
+				destIndex = line * width + column;
 				buffer[destIndex] = set?FOREGROUND_COLOR:BACKGROUND_COLOR;
-				byte <<= 1;
+				byte >>= 1;
 			}
 		}
 		// const uint16_t y = (stripCount - strip) * linesPerStrip - 8; // + 24;
-		const uint16_t y = (stripCount - strip) * linesPerStrip;
+		const uint16_t y = strip * linesPerStrip;
 		theDisplay.drawRGBBitmap(orgX, orgY + y, buffer, width, linesPerStrip);
   }
 }

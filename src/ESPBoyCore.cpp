@@ -22,12 +22,6 @@ void (*externalButtonsHandler)();
 bool hasExternalButtonsHandler = false;
 
 uint16_t ESPBoyCore::theBorderColor;
-Adafruit_ST7735 theDisplay = Adafruit_ST7735(
-  ESPBoyCore::lcd_cs, 
-  ESPBoyCore::lcd_dc, 
-  ESPBoyCore::lcd_rst);
-
-ESPBoyCore::ESPBoyCore() { }
 
 ESPBoyCore::ESPBoyCore() { 
 	theBorderColor = ST77XX_GREEN;
@@ -63,7 +57,7 @@ void ESPBoyCore::bootOLED()
   SPI.begin();
 
   theDisplay.initR(INITR_BLACKTAB);
-  theDisplay.setRotation(1);
+  theDisplay.setRotation(3);
 
   int16_t const width = theDisplay.width();
   int16_t const height = theDisplay.height();
