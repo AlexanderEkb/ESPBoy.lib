@@ -895,7 +895,7 @@ void ESPBoyBase::display()
 	uint32_t strip, column, line;
 	uint32_t srcIndex, destIndex;
   const uint32_t orgX = (theDisplay.width() - width) >> 1;
-  const uint32_t orgY = 24; //(theDisplay.height() - emulatedHeight) >> 1;
+  const uint32_t orgY = (theDisplay.height() - emulatedHeight) >> 1;
 	
   /* Strip-per-strip drawing */
   for(strip=0; strip < stripCount; strip++) {
