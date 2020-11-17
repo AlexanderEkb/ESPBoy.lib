@@ -4,7 +4,9 @@
  * The ESPBoyCore class for ESPboy hardware initilization and control.
  */
 
+#include "Adafruit_ST7735.h"
 #include "ESPBoyCore.h"
+#include "user_interface.h"
 
 #define RAW_BUTTON_A 				0x0001
 #define RAW_BUTTON_B 				0x0002
@@ -20,6 +22,12 @@ void (*externalButtonsHandler)();
 bool hasExternalButtonsHandler = false;
 
 uint16_t ESPBoyCore::theBorderColor;
+Adafruit_ST7735 theDisplay = Adafruit_ST7735(
+  ESPBoyCore::lcd_cs, 
+  ESPBoyCore::lcd_dc, 
+  ESPBoyCore::lcd_rst);
+
+ESPBoyCore::ESPBoyCore() { }
 
 ESPBoyCore::ESPBoyCore() { 
 	theBorderColor = ST77XX_GREEN;
@@ -31,6 +39,7 @@ void ESPBoyCore::blank() {
 
 void ESPBoyCore::boot()
 {
+	wifi_set_opmode(NULL_MODE);
 	bootPins();
 	bootOLED();
 	bootPowerSaving();

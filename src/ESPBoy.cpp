@@ -228,6 +228,7 @@ bool ESPBoyBase::nextFrame()
 bool ESPBoyBase::nextFrameDEV()
 {
   // FIXME:
+  return nextFrame();
 }
 
 int ESPBoyBase::cpuLoad()
@@ -485,7 +486,6 @@ void ESPBoyBase::drawFastVLine
 void ESPBoyBase::drawFastHLine
 (int16_t x, int16_t y, uint8_t w, uint8_t color)
 {
-	return;
   int16_t xEnd; // last x point + 1
 
   // Do y bounds checks
@@ -917,8 +917,10 @@ void ESPBoyBase::display()
 
 void ESPBoyBase::display(bool clear)
 {
-  clearDisplay();
   display();
+  if(clear) {
+    clearDisplay();
+  }
 }
 
 uint8_t* ESPBoyBase::getBuffer()
