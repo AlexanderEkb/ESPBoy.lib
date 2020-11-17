@@ -176,91 +176,6 @@ extern Adafruit_ST7735 theDisplay;
 // there is only one pin for audio
 #define PIN_SPEAKER 0
 // -----------------------
-
-// ----- DevKit pins -----
-#elif defined(AB_DEVKIT)
-
-#define PIN_CS 6        // Display CS Arduino pin number
-#define CS_PORT PORTD   // Display CS port
-#define CS_BIT PORTD7   // Display CS physical bit number
-
-#define PIN_DC 4        // Display D/C Arduino pin number
-#define DC_PORT PORTD   // Display D/C port
-#define DC_BIT PORTD4   // Display D/C physical bit number
-
-#define PIN_RST 12      // Display reset Arduino pin number
-#define RST_PORT PORTD  // Display reset port
-#define RST_BIT PORTD6  // Display reset physical bit number
-
-#define SPI_MOSI_PORT PORTB
-#define SPI_MOSI_BIT PORTB2
-
-#define SPI_SCK_PORT PORTB
-#define SPI_SCK_BIT PORTB1
-
-// map all LEDs to the single TX LED on DEVKIT
-#define RED_LED 17
-#define GREEN_LED 17
-#define BLUE_LED 17
-
-#define BLUE_LED_PORT PORTB
-#define BLUE_LED_BIT PORTB0
-
-// bit values for button states
-// these are determined by the buttonsState() function
-#define LEFT_BUTTON _BV(5)
-#define RIGHT_BUTTON _BV(2)
-#define UP_BUTTON _BV(4)
-#define DOWN_BUTTON _BV(6)
-#define A_BUTTON _BV(1)
-#define B_BUTTON _BV(0)
-
-// pin values for buttons, probably shouldn't use these
-#define PIN_LEFT_BUTTON 9
-#define LEFT_BUTTON_PORT PORTB
-#define LEFT_BUTTON_PORTIN PINB
-#define LEFT_BUTTON_DDR DDRB
-#define LEFT_BUTTON_BIT PORTB5
-
-#define PIN_RIGHT_BUTTON 5
-#define RIGHT_BUTTON_PORT PORTC
-#define RIGHT_BUTTON_PORTIN PINC
-#define RIGHT_BUTTON_DDR DDRC
-#define RIGHT_BUTTON_BIT PORTC6
-
-#define PIN_UP_BUTTON 8
-#define UP_BUTTON_PORT PORTB
-#define UP_BUTTON_PORTIN PINB
-#define UP_BUTTON_DDR DDRB
-#define UP_BUTTON_BIT PORTB4
-
-#define PIN_DOWN_BUTTON 10
-#define DOWN_BUTTON_PORT PORTB
-#define DOWN_BUTTON_PORTIN PINB
-#define DOWN_BUTTON_DDR DDRB
-#define DOWN_BUTTON_BIT PORTB6
-
-#define PIN_A_BUTTON A0
-#define A_BUTTON_PORT PORTF
-#define A_BUTTON_PORTIN PINF
-#define A_BUTTON_DDR DDRF
-#define A_BUTTON_BIT PORTF7
-
-#define PIN_B_BUTTON A1
-#define B_BUTTON_PORT PORTF
-#define B_BUTTON_PORTIN PINF
-#define B_BUTTON_DDR DDRF
-#define B_BUTTON_BIT PORTF6
-
-#define PIN_SPEAKER_1 A2
-#define SPEAKER_1_PORT PORTF
-#define SPEAKER_1_DDR DDRF
-#define SPEAKER_1_BIT PORTF5
-// SPEAKER_2 is purposely not defined for DEVKIT as it could potentially
-// be dangerous and fry your hardware (because of the devkit wiring).
-//
-// Reference: https://github.com/ESPBoy/ESPBoy/issues/108
-
 #endif
 // --------------------
 
@@ -511,6 +426,8 @@ class ESPBoyCore
      * of this function.
      */
     uint8_t static height();
+
+    uint16_t borderColor();
 
     /** \brief
      * Get the current state of all buttons as a bitmask.
@@ -907,6 +824,7 @@ class ESPBoyCore
     void static mainNoUSB();	
 
   protected:
+    static uint16_t theBorderColor;
     // internals
     void static setCPUSpeed8MHz();
     void static bootSPI();

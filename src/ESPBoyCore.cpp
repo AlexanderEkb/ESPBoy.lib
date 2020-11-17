@@ -19,7 +19,15 @@ uint8_t externalButtons;
 void (*externalButtonsHandler)();
 bool hasExternalButtonsHandler = false;
 
-ESPBoyCore::ESPBoyCore() { }
+uint16_t ESPBoyCore::theBorderColor;
+
+ESPBoyCore::ESPBoyCore() { 
+	theBorderColor = ST77XX_GREEN;
+}
+
+void ESPBoyCore::blank() {
+
+}
 
 void ESPBoyCore::boot()
 {
@@ -50,7 +58,7 @@ void ESPBoyCore::bootOLED()
 
   int16_t const width = theDisplay.width();
   int16_t const height = theDisplay.height();
-  theDisplay.fillRect(0, 0, width, height, ST77XX_GREEN);
+  theDisplay.fillRect(0, 0, width, height, theBorderColor);
 
 //  display(); // blank the display (sBuffer is global, so cleared automatically)  
 }
@@ -110,6 +118,8 @@ void ESPBoyCore::displayOn()
 uint8_t ESPBoyCore::width() { return WIDTH; }
 
 uint8_t ESPBoyCore::height() { return HEIGHT; }
+
+uint16_t ESPBoyCore::borderColor() { return theBorderColor; }
 
 
 /* Drawing */
