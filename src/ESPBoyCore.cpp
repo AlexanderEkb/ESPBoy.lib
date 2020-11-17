@@ -23,6 +23,11 @@ bool hasExternalButtonsHandler = false;
 
 uint16_t ESPBoyCore::theBorderColor;
 
+Adafruit_ST7735 theDisplay = Adafruit_ST7735(
+  ESPBoyCore::lcd_cs, 
+  ESPBoyCore::lcd_dc, 
+  ESPBoyCore::lcd_rst);
+
 ESPBoyCore::ESPBoyCore() { 
 	theBorderColor = ST77XX_GREEN;
 }
