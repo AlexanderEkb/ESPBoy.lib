@@ -5,6 +5,7 @@
  */
 
 #include "ESPBoy.h"
+#include "Storage.h"
 #include "eb_logo.inc"
 #include "glcdfont.c"
 
@@ -970,19 +971,15 @@ bool ESPBoyBase::collide(Rect rect1, Rect rect2)
 
 uint16_t ESPBoyBase::readUnitID()
 {
-    EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  uint8_t result =  EEPROM.read(EEPROM_UNIT_ID) |
-         (((uint16_t)(EEPROM.read(EEPROM_UNIT_ID + 1))) << 8);
-    EEPROM.end();
+  uint8_t result =  Storage.read(EEPROM_UNIT_ID) |
+         (((uint16_t)(Storage.read(EEPROM_UNIT_ID + 1))) << 8);
     return result;
 }
 
 void ESPBoyBase::writeUnitID(uint16_t id)
 {
-  EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  EEPROM.update(EEPROM_UNIT_ID, (uint8_t)(id & 0xff));
-  EEPROM.update(EEPROM_UNIT_ID + 1, (uint8_t)(id >> 8));
-  EEPROM.end();
+  Storage.update(EEPROM_UNIT_ID, (uint8_t)(id & 0xff));
+  Storage.update(EEPROM_UNIT_ID + 1, (uint8_t)(id >> 8));
 }
 
 uint8_t ESPBoyBase::readUnitName(char* name)
@@ -991,17 +988,15 @@ uint8_t ESPBoyBase::readUnitName(char* name)
   uint8_t dest;
   uint8_t src = EEPROM_UNIT_NAME;
 
-    EEPROM.begin(EEPROM_STORAGE_SPACE_START);
   for (dest = 0; dest < ESPBOY_UNIT_NAME_LEN; dest++)
   {
-    val = EEPROM.read(src);
+    val = Storage.read(src);
     name[dest] = val;
     src++;
     if (val == 0x00 || (byte)val == 0xFF) {
       break;
     }
   }
-    EEPROM.end();
 
   name[dest] = 0x00;
   return dest;
@@ -1012,74 +1007,60 @@ void ESPBoyBase::writeUnitName(char* name)
   bool done = false;
   uint8_t dest = EEPROM_UNIT_NAME;
 
-  EEPROM.begin(EEPROM_STORAGE_SPACE_START);
   for (uint8_t src = 0; src < ESPBOY_UNIT_NAME_LEN; src++)
   {
     if (name[src] == 0x00) {
       done = true;
     }
     // write character or 0 pad if finished
-    EEPROM.update(dest, done ? 0x00 : name[src]);
+    Storage.update(dest, done ? 0x00 : name[src]);
     dest++;
   }
-  EEPROM.end();
 }
 
 bool ESPBoyBase::readShowBootLogoFlag()
 {
-    EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  uint8_t result = (EEPROM.read(EEPROM_SYS_FLAGS) & SYS_FLAG_SHOW_LOGO_MASK);
-    EEPROM.end();
+  uint8_t result = (Storage.read(EEPROM_SYS_FLAGS) & SYS_FLAG_SHOW_LOGO_MASK);
     
     return result;
 }
 
 void ESPBoyBase::writeShowBootLogoFlag(bool val)
 {
-    EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  uint8_t flags = EEPROM.read(EEPROM_SYS_FLAGS);
+  uint8_t flags = Storage.read(EEPROM_SYS_FLAGS);
     
   bitWrite(flags, SYS_FLAG_SHOW_LOGO, val);
-  EEPROM.update(EEPROM_SYS_FLAGS, flags);
-  EEPROM.end();
+  Storage.update(EEPROM_SYS_FLAGS, flags);
 }
 
 bool ESPBoyBase::readShowUnitNameFlag()
 {
-    EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  uint8_t result = (EEPROM.read(EEPROM_SYS_FLAGS) & SYS_FLAG_UNAME_MASK);
-    EEPROM.end();
+  uint8_t result = (Storage.read(EEPROM_SYS_FLAGS) & SYS_FLAG_UNAME_MASK);
     
     return result;
 }
 
 void ESPBoyBase::writeShowUnitNameFlag(bool val)
 {
-    EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  uint8_t flags = EEPROM.read(EEPROM_SYS_FLAGS);
+  uint8_t flags = Storage.read(EEPROM_SYS_FLAGS);
     
   bitWrite(flags, SYS_FLAG_UNAME, val);
-  EEPROM.update(EEPROM_SYS_FLAGS, flags);
-  EEPROM.end();
+  Storage.update(EEPROM_SYS_FLAGS, flags);
 }
 
 bool ESPBoyBase::readShowBootLogoLEDsFlag()
 {
-  EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  uint8_t result = (EEPROM.read(EEPROM_SYS_FLAGS) & SYS_FLAG_SHOW_LOGO_LEDS_MASK);
-    EEPROM.end();
+  uint8_t result = (Storage.read(EEPROM_SYS_FLAGS) & SYS_FLAG_SHOW_LOGO_LEDS_MASK);
     
     return result;
 }
 
 void ESPBoyBase::writeShowBootLogoLEDsFlag(bool val)
 {
-  EEPROM.begin(EEPROM_STORAGE_SPACE_START);
-  uint8_t flags = EEPROM.read(EEPROM_SYS_FLAGS);
+  uint8_t flags = Storage.read(EEPROM_SYS_FLAGS);
     
   bitWrite(flags, SYS_FLAG_SHOW_LOGO_LEDS, val);
-  EEPROM.update(EEPROM_SYS_FLAGS, flags);
-  EEPROM.end();
+  Storage.update(EEPROM_SYS_FLAGS, flags);
 }
 
 void ESPBoyBase::swap(int16_t& a, int16_t& b)
