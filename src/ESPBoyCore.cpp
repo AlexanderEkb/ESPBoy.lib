@@ -129,6 +129,7 @@ uint8_t ESPBoyCore::height() { return HEIGHT; }
 
 uint16_t ESPBoyCore::borderColor() { return theBorderColor; }
 
+void ESPBoyCore::setBorderColor(uint16_t newColor) {theBorderColor = newColor;};
 
 /* Drawing */
 

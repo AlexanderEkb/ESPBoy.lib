@@ -429,6 +429,8 @@ class ESPBoyCore
 
     uint16_t borderColor();
 
+    void setBorderColor(uint16_t newColor);
+
     /** \brief
      * Get the current state of all buttons as a bitmask.
      *

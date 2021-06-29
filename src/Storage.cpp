@@ -18,7 +18,7 @@ void StorageClass::begin() {
 
   if(file) {
     if(!exists) {
-      Serial.println("create");
+      Serial.println("StorageClass create file");
       for(uint32_t index=0; index<fileSize; index++) {
         if(file.write(foo) != 1) {
           Serial.println("file write error");
@@ -26,7 +26,7 @@ void StorageClass::begin() {
       }
       file.flush();
     } else {
-      Serial.println("already exists");
+      Serial.println("StorageClass: already exists");
     }
 
     char buf[64];
@@ -34,16 +34,16 @@ void StorageClass::begin() {
     sprintf(buf, "%d", file_size);
     Serial.println(buf);
   } else {
-    Serial.println("file open error");
+    Serial.println("StorageClass: file open error");
   }
 }
 
 uint8_t StorageClass::read(int const address) {
-  Serial.println("read");
+  Serial.println("StorageClass.read()");
   uint8_t result;
   if(file) {
     file.seek(address);
-    if(file.read(&result, 1) == -1) {
+    if(file.read(&result, 1) != 1) {
       Serial.println("byte read error");
     }
   } else {
@@ -54,7 +54,7 @@ uint8_t StorageClass::read(int const address) {
 }
 
 void StorageClass::write(int const address, uint8_t const val) {
-  Serial.println("write");
+  Serial.println("StorageClass.write");
   if(file) {
     file.seek(address);
     if(file.write(val) != 1) {

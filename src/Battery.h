@@ -14,7 +14,6 @@ class Battery {
         const uint32_t rawValue = analogRead(A0);
         const uint32_t rawVoltage = (rawValue * 1000) / 1024;
         const uint32_t batteryVoltage = (rawVoltage * (r1 + r2)) / r2;
-        uint16_t buffer[BATTERY_GLYPH_WIDTH * BATTERY_GLYPH_HEIGHT];
 
         if(batteryVoltage < fullDischarge) {
             state = 0;
